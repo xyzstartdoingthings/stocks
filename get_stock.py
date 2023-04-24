@@ -58,12 +58,12 @@ class createCSV:
 
     def add_target(self):
         for i in self.df.index:
-            next_10 = i + 10
+            next_10 = i + 5
             days = list(range(i+1, next_10+1))
             data_10days = self.df[self.df.index.isin(days)]
-            if data_10days.Low.min() <= self.df.loc[i, "Close"]*0.95:
+            if data_10days.Low.min() <= self.df.loc[i, "Close"]*0.97:
                 self.df.loc[i, "Target"] = 2
-            elif data_10days.High.max() >= self.df.loc[i, "Close"]*1.05:
+            elif data_10days.High.max() >= self.df.loc[i, "Close"]*1.03:
                 self.df.loc[i, "Target"] = 1
             else:
                 self.df.loc[i, "Target"] = 0

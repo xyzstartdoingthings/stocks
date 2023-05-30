@@ -69,6 +69,7 @@ def main():
       if isinstance(symbol, str):
         str_of_symbols += "{},".format(symbol)
     
+    querystring['symbol'] = str_of_symbols
     # querystring = {'symbol': 'AMRN', 'region': 'US', 'lang': 'en-US', 'range': '1d', 'straddle': 'true'}
 
 

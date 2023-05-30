@@ -70,9 +70,7 @@ def main():
         str_of_symbols += "{},".format(symbol)
     
     querystring['symbol'] = str_of_symbols
-    # querystring = {'symbol': 'AMRN', 'region': 'US', 'lang': 'en-US', 'range': '1d', 'straddle': 'true'}
-
-
+    # querystring = {'symbol': 'AMRN,AAPL,TSLA,', 'region': 'US', 'lang': 'en-US', 'range': '1d', 'straddle': 'true'}
 
     response = requests.get(url, headers=headers, params=querystring)
 

@@ -1,0 +1,9 @@
+get_action: 
+  - get-statistics
+  - get-options
+  - get-insights
+
+symbols: 
+  - AMRN
+  - AAPL
+  - TSLA

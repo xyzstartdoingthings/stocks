@@ -7,10 +7,15 @@ import pprint
 
 import yaml
 
+# set up headers, once in lifetime
 headers = {
-    "X-RapidAPI-Key": "551595c10emsh9ab76ccfb317820p1fa121jsnc738c9455698",
-    "X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com"
-  }
+	"X-RapidAPI-Key": "551595c10emsh9ab76ccfb317820p1fa121jsnc738c9455698",
+	"X-RapidAPI-Host": "apidojo-yahoo-finance-v1.p.rapidapi.com"
+}
+
+# set up query string, only modify symbol in main function
+querystring = {"symbol":"AMRN","region":"US","lang":"en-US", "range":"1d", "straddle":"true"}
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Pull data from yahoo finance")
@@ -27,14 +32,6 @@ def parse_args():
       help="which section we pull data from (market)", 
       choices=['stock', 'market', 'news', 'screener', 'conversation', 'calendar']
     )
-    parser.add_argument(
-      '-v', "--version", 
-      type=str,
-      default='v3', 
-      help="which version we use for pull", 
-      choices=['v2', 'v3', 'v4']
-    )
-    
     args = parser.parse_args()
     return args
 
@@ -45,7 +42,6 @@ def main():
       yaml_data = yaml.safe_load(file)
 
     # set up url
-    
     ### Extract the values from YAML get_actions and populate the list
     list_of_actions = []
     for action in yaml_data['get_action']:
@@ -54,27 +50,35 @@ def main():
     
     base_url = "https://apidojo-yahoo-finance-v1.p.rapidapi.com"
     section = args.section
-    version = args.version
 
-    action = list_of_actions[0] # for simplicity, just perform first action
+    dict_act_smbl = {}
+    for action in list_of_actions:
+      # action = list_of_actions[0] # for simplicity, just perform first action
 
-    url = "{}/{}/{}/{}".format(base_url, section, version, action)
-    print("==== LOG: extract from url: {} ====".format(url))
+      url = "{}/{}/{}".format(base_url, section, action)
+      print("==== LOG: extract from url: {} ====".format(url))
 
-    # set up query string
-    ### Extract the values from YAML get_actions and populate the list
-    querystring = {"symbol":"AMRN","region":"US","lang":"en-US", "range":"1d", "straddle":"true"}
-    str_of_symbols = ""
-    for symbol in yaml_data['symbols']:
-      if isinstance(symbol, str):
-        str_of_symbols += "{},".format(symbol)
+      
+      # pull all symbols from one action
+      dict_oneact = {}
+      for symbol in yaml_data['symbols']:
+        if isinstance(symbol, str):
+          querystring['symbol'] = symbol
+          print("querystring: ", querystring)
+          response = requests.get(url, headers=headers, params=querystring)
+
+          dict_oneact[symbol] = response.json()
+      
+      # print(dict_oneact.keys())
+      
+      
     
-    querystring['symbol'] = str_of_symbols
-    # querystring = {'symbol': 'AMRN,AAPL,TSLA,', 'region': 'US', 'lang': 'en-US', 'range': '1d', 'straddle': 'true'}
+      dict_act_smbl[action] = dict_oneact
+    print(dict_act_smbl.keys())
 
-    response = requests.get(url, headers=headers, params=querystring)
-
-    pprint.pprint(response.json())
+    ## print long result
+    print("==== long result {} ====")
+    pprint.pprint(dict_act_smbl)
 
 
     

@@ -35,35 +35,35 @@ class createCSV:
             self.df['High'], self.df['Low'], self.df['Close'], fastk_period=9, slowk_period=3, slowd_period=3)
         j_line = 3 * k_line - 2 * d_line
         upper, middle, lower = talib.BBANDS(self.df['Close'], timeperiod=20)
-        self.df['MACD'] = macd
-        self.df['signal'] = signal
-        self.df['hist'] = hist
-        self.df["k_line"] = k_line
-        self.df["d_line"] = d_line
-        self.df["j_line"] = j_line
+        # self.df['MACD'] = macd
+        # self.df['signal'] = signal
+        # self.df['hist'] = hist
+        # self.df["k_line"] = k_line
+        # self.df["d_line"] = d_line
+        # self.df["j_line"] = j_line
         self.df["rsi"] = rsi
-        self.df["BBand_high"] = upper
-        self.df["BBand_low"] = lower
-        self.df["BBand_mid"] = middle
-        self.df["sma_5"] = talib.SMA(self.df['Close'], timeperiod=5)
-        self.df["sma_10"] = talib.SMA(self.df['Close'], timeperiod=10)
-        self.df["sma_30"] = talib.SMA(self.df['Close'], timeperiod=30)
-        self.df["sma_60"] = talib.SMA(self.df['Close'], timeperiod=60)
-        self.df["ema_5"] = talib.EMA(self.df['Close'], timeperiod=5)
-        self.df["ema_10"] = talib.EMA(self.df['Close'], timeperiod=10)
-        self.df["ema_30"] = talib.EMA(self.df['Close'], timeperiod=30)
-        self.df["ema_60"] = talib.EMA(self.df['Close'], timeperiod=60)
+        # self.df["BBand_high"] = upper
+        # self.df["BBand_low"] = lower
+        # self.df["BBand_mid"] = middle
+        # self.df["sma_5"] = talib.SMA(self.df['Close'], timeperiod=5)
+        # self.df["sma_10"] = talib.SMA(self.df['Close'], timeperiod=10)
+        # self.df["sma_30"] = talib.SMA(self.df['Close'], timeperiod=30)
+        # self.df["sma_60"] = talib.SMA(self.df['Close'], timeperiod=60)
+        self.df["ema_9"] = talib.EMA(self.df['Close'], timeperiod=5)
+        self.df["ema_15"] = talib.EMA(self.df['Close'], timeperiod=10)
+        self.df["ema_120"] = talib.EMA(self.df['Close'], timeperiod=30)
+        # self.df["ema_60"] = talib.EMA(self.df['Close'], timeperiod=60)
         self.df = self.df.reset_index().reset_index().rename(columns={"index": "Bar Time"}).set_index(
             "Bar Time")
 
     def add_target(self):
         for i in self.df.index:
-            next_10 = i + 5
+            next_10 = i + 10
             days = list(range(i+1, next_10+1))
             data_10days = self.df[self.df.index.isin(days)]
-            if data_10days.Low.min() <= self.df.loc[i, "Close"]*0.97:
+            if data_10days.Low.min() <= self.df.loc[i, "Close"]*0.95:
                 self.df.loc[i, "Target"] = 2
-            elif data_10days.High.max() >= self.df.loc[i, "Close"]*1.03:
+            elif data_10days.High.max() >= self.df.loc[i, "Close"]*1.05:
                 self.df.loc[i, "Target"] = 1
             else:
                 self.df.loc[i, "Target"] = 0

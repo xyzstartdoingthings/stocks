@@ -91,7 +91,10 @@ class subset_pipe:
                 # for e.g. sub_key = ' beta (5Y Monthly)' or ' bookValue (book value per share)' etc.
                 # example 'beta_5Y_Monthly': {'fmt': '1.29', 'raw': 1.289436}
                 # first trim the white space using .strip(), then remove the parenthesis when extracting from full dict using .split()
-                secondLayer = full[key][sub_key.strip().split(' (', 1)[0]]
+                try:
+                  secondLayer = full[key][sub_key.strip().split(' (', 1)[0]]
+                except (KeyError, TypeError, AttributeError):
+                  print("Key not found or error occurred while accessing the dictionary {} using key {}:{}.".format(full['symbol'],key,sub_key.strip().split(' (', 1)[0]))
 
                 for layerKey in ['raw', 'avg']: # duplicate with below dataframe
                     secondLayer = secondLayer[layerKey] if isinstance(secondLayer, dict) and layerKey in secondLayer else secondLayer

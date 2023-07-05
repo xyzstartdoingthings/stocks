@@ -93,13 +93,17 @@ class subset_pipe:
                 # first trim the white space using .strip(), then remove the parenthesis when extracting from full dict using .split()
                 try:
                   secondLayer = full[key][sub_key.strip().split(' (', 1)[0]]
-                except (KeyError, TypeError, AttributeError):
-                  print("Key not found or error occurred while accessing the dictionary {} using key {}:{}.".format(full['symbol'],key,sub_key.strip().split(' (', 1)[0]))
-
-                for layerKey in ['raw', 'avg']: # duplicate with below dataframe
+                  for layerKey in ['raw', 'avg']: # duplicate with below dataframe
                     secondLayer = secondLayer[layerKey] if isinstance(secondLayer, dict) and layerKey in secondLayer else secondLayer
 
-                subset[key][sub_key.strip().replace(" ","_").replace("(","").replace(")","")] = secondLayer
+                  subset[key][sub_key.strip().replace(" ","_").replace("(","").replace(")","")] = secondLayer
+                  ## zhuoyan !!! move below into try block!
+                
+                except (KeyError, TypeError, AttributeError):
+                  print("Key not found or error occurred while accessing the dictionary {} using key {}:{}.".format(full['symbol'],key,sub_key.strip().split(' (', 1)[0]))
+                  # subset[key][sub_key.strip().replace(" ","_").replace("(","").replace(")","")]
+
+                
         else:
             raise ValueError("only support nested one layer dictionary")
         

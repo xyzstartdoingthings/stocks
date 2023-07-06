@@ -14,6 +14,6 @@ python pull.py \
 ```
 or `python pull.py` for short.
 
- - modify `config/basic.yaml` for more get_actions and symbols. 
+ - modify `config/basic.yaml` for more symbols. add `python pull.py -as` for use symbols from `All_stock.csv`.
+ - Since each action require different processing pipeline, each `python pull.py` run just perform one action.
  - Not yet robust, certain actions only applied to vertain symbols. For e.g. `stock/v4/get-statistics` cannot extract AAPL, AMRN, ESLA, etc.
- - Now pull one symbol with one action at a time.

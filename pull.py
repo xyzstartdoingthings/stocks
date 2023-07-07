@@ -113,22 +113,25 @@ def main():
   action_key = yaml_data['get_action'][0].split("/")[1]  # v2/get-summary  --> get-summary
   pipe_funcs = processors_mapping[action_key]
 
-  '''
-  ==== below I wrap into pipe_funcs.pipeline ====
+  
+  # ==== below I wrap into pipe_funcs.pipeline ====
   # read txt file into list
-  items = pipe_funcs.read_txt_into_list("stock-v2-{}-keys.txt".format(action_key)) # stock-v2-get-summary-keys.txt
-  action = list_of_actions[0] # for simplicity, just perform first action
-  total = pd.DataFrame()
-  for symbol in exist_symbols:
-    full = dict_act_smbl[action][symbol]
-    subset_dict = pipe_funcs.take_subset(items, full)
-    df = pipe_funcs.convert_dict_to_df(subset_dict)
-    total = pd.concat([total, df])
-  '''
+  # items = pipe_funcs.read_txt_into_list("stock-v2-{}-keys.txt".format(action_key)) # stock-v2-get-summary-keys.txt
+  # action = list_of_actions[0] # for simplicity, just perform first action
+  # total = pd.DataFrame()
+  # for symbol in exist_symbols:
+  #   full = dict_act_smbl[action][symbol]
+  #   subset_dict = pipe_funcs.take_subset(items, full)
+  #   df = pipe_funcs.convert_dict_to_df(subset_dict)
+  #   total = pd.concat([total, df])
+  
   total = pipe_funcs.pipeline("stock-v2-{}-keys.txt".format(action_key), dict_act_smbl, exist_symbols)
 
-  pprint.pprint(total)
-  # total.to_csv("stock_{}_subset_keys_random.csv".format(action_key))
+  # pprint.pprint(total)
+  save_index = True
+  if action == "v2/get-financials":
+    save_index = False
+  total.to_csv("stock_{}_subset_keys_random.csv".format(action_key), index=save_index)
 
     
 if __name__ == "__main__":

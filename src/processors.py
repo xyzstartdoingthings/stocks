@@ -135,27 +135,39 @@ class subset_pipe_get_financials:
     except IOError:
       print("An error occurred while reading the file.")
 
-    # print(len(content.split('\n\n')))
     items = content.split('\n\n')
     
-    subset = defaultdict(dict)
 
-    full = dict_act_smbl['v2/get-financials']["AAPL"]
+    action = 'v2/get-financials'
+    total = pd.DataFrame()
+    for symbol in exist_symbols:
+      full = dict_act_smbl[action][symbol]
+    # symbol = "AAPL"
+    # full = dict_act_smbl['v2/get-financials'][symbol]
 
-    for item in items:
-      key_val = item.split(":")
       quarter_info = defaultdict(dict)
-      for quarter_id in range(4):
-        for sub_key in key_val[3].split(","):
-          # print(sub_key.strip())
-          leafLayer = full[key_val[0].strip()][key_val[1].strip()][quarter_id][sub_key.strip()]
-          for layerKey in ['raw', 'avg']: # duplicate with below dataframe
-            leafLayer = leafLayer[layerKey] if isinstance(leafLayer, dict) and layerKey in leafLayer else leafLayer
+      for item in items:
+          key_val = item.split(":")
+          for quarter_id in range(4):
+              subset = defaultdict(dict)
+              for sub_key in key_val[3].split(","):
+                  leafLayer = full[key_val[0].strip()][key_val[1].strip()][quarter_id][sub_key.strip()]
+                  for layerKey in ['raw', 'avg']: # duplicate with below dataframe
+                          leafLayer = leafLayer[layerKey] if isinstance(leafLayer, dict) and layerKey in leafLayer else leafLayer
+                  subset[sub_key.strip()] = leafLayer
 
-          subset[sub_key.strip()] = leafLayer
-        quarter_info[quarter_id] = subset
+              quarter_info[quarter_id].update(subset)
+
+      # Convert the flattened dictionary into a DataFrame
+      df = pd.DataFrame.from_dict(quarter_info, orient='index')
+      df = df.reset_index().rename(columns={'index': 'Category'})
+      df['symbol'] = symbol
+      new_col_order = ['symbol'] + [col for col in df.columns if col not in ['symbol']]
+      df = df[new_col_order]
+
+      total = pd.concat([total, df])
     
-    return quarter_info
+    return total
 
       
    

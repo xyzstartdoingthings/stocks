@@ -1,0 +1,15 @@
+defaultKeyStatistics: beta (5Y Monthly), bookValue (book value per share), earningsQuarterlyGrowth (Quarterly earnings growth year-over-year), enterpriseToEbitda, enterpriseToRevenue, enterpriseValue, forwardEps (forward means using forecast earning for next 12 month), forwardPE, heldPercentInsiders, heldPercentInstitutions,
+netIncomeToCommon (income that could be given to common stockholders ttm), pegRatio, priceToBook, trailingEps (for recent past 12 month)
+
+summaryProfile: sector, industry
+
+price: averageDailyVolume10Day, averageDailyVolume3Month, marketCap
+
+symbol
+
+financialData: currentRatio (mrq), debtToEquity (mrq), ebitda (ttm), ebitdaMargins (ttm), freeCashflow (ttm), grossMargins (ttm), grossProfits (ttm), operatingCashflow (ttm), operatingMargins (ttm), profitMargins (ttm), quickRatio (mrq), returnOnAssets (ttm), returnOnEquity (ttm), revenueGrowth (quarterly revenue growth yoy), revenuePerShare (ttm)
+totalCash (mrq), totalCashPerShare (mrq), totalDebt (mrq), totalRevenue (ttm)
+
+esgScores: environmentScore, esgPerformance, governanceScore, highestControversy, peerEnvironmentPerformance, peerEsgScorePerformance, peerGovernancePerformance, peerHighestControversyPerformance, peerSocialPerformance, socialScore, totalEsg
+
+summaryDetail: fiftyDayAverage, fiftyTwoWeekHigh, fiftyTwoWeekLow, twoHundredDayAverage, dividendRate, dividendYield, fiveYearAvgDividendYield, payoutRatio

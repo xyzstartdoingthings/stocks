@@ -114,7 +114,8 @@ def eval(stock):
     #ROI
     ROI = (orders_df.loc[len(orders_df)-1, "Money After Order"] - orders_df.loc[0, "Initial Money"])/orders_df.loc[0, "Initial Money"]
     print(f"ROI: {ROI * 100:.2f}%")
-
+    ROI_noStrategy = (stock.loc[len(stock)-1,"close"] - stock.loc[0,"close"]) / stock.loc[0,"close"]
+    print(f"ROI with no strategy: {ROI_noStrategy * 100:.2f}%")
     #Compounding Annual Return
     years = (stock["date"].max()-stock["date"].min()).days/365
     print(f"Compounding Annual Return: {((orders_df.loc[len(orders_df)-1, 'Money After Order']/orders_df.loc[0, 'Initial Money']) ** (1/years) - 1) * 100:.2f}%")

@@ -8,7 +8,7 @@ from collections import deque
 import itertools
 
 
-def optimizer(algo, ticker, variables, n=3, max_dd=0.18, wl_ratio=0.6):
+def optimizer(algo, ticker, variables, n=3, min_ROI = 1.8, max_dd=0.18, wl_ratio=0.6):
     variables["ticker"] = [ticker]
     keys, values = zip(*variables.items())
     combinations = itertools.product(*values)
@@ -19,7 +19,7 @@ def optimizer(algo, ticker, variables, n=3, max_dd=0.18, wl_ratio=0.6):
         stock = algo(**params)
         maximum_drawdown, ROI, win_loss_ratio = eval(stock, opt=True)
         metric = 0.5*ROI-0.25*maximum_drawdown+0.25*win_loss_ratio
-        if maximum_drawdown <= max_dd and win_loss_ratio >= wl_ratio:
+        if maximum_drawdown <= max_dd and win_loss_ratio >= wl_ratio and min_ROI <= ROI:
             if len(top_n_combinations) < n:
                 top_n_combinations.append((params, metric, (ROI, maximum_drawdown, win_loss_ratio)))
             else:

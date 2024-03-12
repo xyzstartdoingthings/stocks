@@ -1,6 +1,7 @@
 from concurrent.futures import ProcessPoolExecutor
 from utils import *
 from algo_2 import *
+import pickle
 
 # perhaps set to external harddrive to accomodate large amount of data
 data_path = Path(os.getcwd())
@@ -23,17 +24,20 @@ def optimizer_parallel(algo, ticker, variables):
 def main():
     # change cpu number
     with ProcessPoolExecutor(max_workers=24) as executor:
-
+        
+        ticker_range = range(1973, 2117)
         # change ticker range
         futures = [executor.submit(optimizer_parallel, algo2, ticker, variables)
-                   for ticker in ticker_all["Symbol"].unique()[0:144]]
+                   for ticker in ticker_all["Symbol"].unique()[ticker_range[0]:ticker_range[-1]]]
         top_a_tickers = [future.result() for future in futures]
 
     # Sort and select the top 'a' results
-    print(top_a_tickers)
     top_a_tickers = [ele for ele in top_a_tickers if ele != []]
     top_a_tickers.sort(key=lambda x: x[0][1], reverse=True)
     top_a_tickers = top_a_tickers[:a]
+    with open("output "+str(ticker_range[0])+" to "+str(ticker_range[-1]), "wb") as fp:   #Pickling
+        pickle.dump(top_a_tickers, fp)
+
     return top_a_tickers
 
 

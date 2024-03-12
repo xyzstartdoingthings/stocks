@@ -22,15 +22,17 @@ def optimizer_parallel(algo, ticker, variables):
 
 def main():
     # change cpu number
-    with ProcessPoolExecutor() as executor:
+    with ProcessPoolExecutor(max_workers=24) as executor:
 
         # change ticker range
         futures = [executor.submit(optimizer_parallel, algo2, ticker, variables)
-                   for ticker in ticker_all["Symbol"].unique()[0:96]]
+                   for ticker in ticker_all["Symbol"].unique()[0:144]]
         top_a_tickers = [future.result() for future in futures]
 
     # Sort and select the top 'a' results
-    top_a_tickers.sort(key=lambda x: x[1], reverse=True)
+    print(top_a_tickers)
+    top_a_tickers = [ele for ele in top_a_tickers if ele != []]
+    top_a_tickers.sort(key=lambda x: x[0][1], reverse=True)
     top_a_tickers = top_a_tickers[:a]
     return top_a_tickers
 

@@ -15,7 +15,7 @@ variables = {"atr_len": np.arange(11, 14, 1), "macd_fastLen": np.arange(11, 14, 
 def optimizer_parallel(algo, ticker, variables):
     result = optimizer(algo, ticker, variables, max_dd=0.15, wl_ratio=0.7)
     if result:
-        return result[0]
+        return result
     else:
         return []
 

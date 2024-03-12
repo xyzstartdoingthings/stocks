@@ -1,3 +1,4 @@
+import argparse
 from concurrent.futures import ProcessPoolExecutor
 from utils import *
 from algo_2 import *
@@ -12,6 +13,11 @@ a = 24
 variables = {"atr_len": np.arange(11, 14, 1), "macd_fastLen": np.arange(11, 14, 1), "macd_slowLen": np.arange(32, 36, 2), "macd_signalSmooth": np.arange(
     7, 10, 1), "macd_peakLen": [3, 5], "gain_ratio": np.arange(1, 3, 1), "loss_ratio": np.arange(1, 3, 1), "peak2_len": [20, 30], "peak3_len": [40, 50]}
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--idx", type=int, default=144)
+    parser.add_argument("--batch_size", type=int, default=96)
+    return parser.parse_args()
 
 def optimizer_parallel(algo, ticker, variables):
     result = optimizer(algo, ticker, variables, max_dd=0.15, wl_ratio=0.7)
@@ -22,11 +28,12 @@ def optimizer_parallel(algo, ticker, variables):
 
 
 def main():
+    args = parse_args()
     # change cpu number
-    with ProcessPoolExecutor(max_workers=24) as executor:
+    with ProcessPoolExecutor(max_workers=12) as executor:
         
         # change ticker range
-        ticker_range = range(1973, 2117)
+        ticker_range = range(args.idx, args.idx + args.batch_size)
         futures = [executor.submit(optimizer_parallel, algo2, ticker, variables)
                    for ticker in ticker_all["Symbol"].unique()[ticker_range[0]:ticker_range[-1]]]
         top_a_tickers = [future.result() for future in futures]

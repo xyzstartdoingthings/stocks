@@ -25,8 +25,8 @@ def main():
     # change cpu number
     with ProcessPoolExecutor(max_workers=24) as executor:
         
-        ticker_range = range(1973, 2117)
         # change ticker range
+        ticker_range = range(1973, 2117)
         futures = [executor.submit(optimizer_parallel, algo2, ticker, variables)
                    for ticker in ticker_all["Symbol"].unique()[ticker_range[0]:ticker_range[-1]]]
         top_a_tickers = [future.result() for future in futures]

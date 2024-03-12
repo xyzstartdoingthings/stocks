@@ -30,7 +30,6 @@ def main():
         top_a_tickers = [future.result() for future in futures]
 
     # Sort and select the top 'a' results
-    print(top_a_tickers)
     top_a_tickers = [ele for ele in top_a_tickers if ele != []]
     top_a_tickers.sort(key=lambda x: x[0][1], reverse=True)
     top_a_tickers = top_a_tickers[:a]

@@ -5,15 +5,19 @@ from algo_2 import *
 data_path = Path(os.getcwd()) # perhaps set to external harddrive to accomodate large amount of data
 path = data_path / 'stock price data'
 ticker_all = pd.read_csv(path/"finer_data_complete_stock.csv")
-a=24
+#change
+a=12
 variables={"atr_len":np.arange(11,14,1), "macd_fastLen": np.arange(11,14,1), "macd_slowLen":np.arange(32,36,2), "macd_signalSmooth":np.arange(7,10,1), "macd_peakLen":[3,5], "gain_ratio":np.arange(1,3,1), "loss_ratio": np.arange(1,3,1), "peak2_len":[20,30], "peak3_len":[40,50]}
 
 def optimizer_parallel(algo, ticker, variables):
-    return optimizer(algo, ticker, variables)[0]
+    return optimizer(algo, ticker, variables, max_dd=0.15, wl_ratio=0.7)[0]
 
 def main():
-    with ProcessPoolExecutor() as executor:
-        futures = [executor.submit(optimizer_parallel, algo2, ticker, variables) for ticker in ticker_all["Symbol"].unique()[0:96]]
+    #change cpu number
+    with ProcessPoolExecutor(max_workers=12) as executor:
+
+        #change ticker range
+        futures = [executor.submit(optimizer_parallel, algo2, ticker, variables) for ticker in ticker_all["Symbol"].unique()[96:144]]
         top_a_tickers = [future.result() for future in futures]
 
     # Sort and select the top 'a' results

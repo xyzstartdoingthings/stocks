@@ -33,7 +33,7 @@ echo "======== run with different inputs ========"
 
 python ticker_selecter_parallel.py --idx $( awk "NR==$SLURM_ARRAY_TASK_ID" config/sequence.txt ) 
 
-
+# sbatch --array=1-20 jobarray.sh
 
 
 

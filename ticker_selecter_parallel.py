@@ -24,7 +24,7 @@ def optimizer_parallel(algo, ticker, variables):
 
 def main():
     # change cpu number
-    with ProcessPoolExecutor(max_workers=12) as executor:
+    with ProcessPoolExecutor(max_workers=24) as executor:
 
         futures = [executor.submit(optimizer_parallel, algo2, ticker, variables)
                    for ticker in ticker_all["Symbol"].unique()[ticker_range[0]:ticker_range[-1]]]

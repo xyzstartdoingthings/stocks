@@ -30,7 +30,7 @@ def optimizer(algo, ticker, variables, n=3, min_ROI = 1.8, max_dd=0.18, wl_ratio
                     top_n_combinations.remove(min(top_n_combinations, key=lambda x: x[1]))
                     top_n_combinations.append((params, metric, (ROI, maximum_drawdown, win_loss_ratio)))
         top_n_combinations.sort(key=lambda x: x[1], reverse=True)
-        if count%10 == 0:
+        if count%200 == 0:
             print(count, " iterations done, current top 3 results are ", top_n_combinations)
         count+=1
     return top_n_combinations

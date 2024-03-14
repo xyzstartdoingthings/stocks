@@ -30,7 +30,7 @@ def optimizer_parallel(algo, ticker, variables):
 def main():
     args = parse_args()
     # change cpu number
-    with ProcessPoolExecutor(max_workers=12) as executor:
+    with ProcessPoolExecutor(max_workers=16) as executor:
         
         # change ticker range
         ticker_range = range(args.idx, args.idx + args.batch_size)

@@ -31,7 +31,9 @@ lscpu | grep 'MHz'
 lscpu | grep 'Architecture'
 echo "======== run with different inputs ========"
 
-python ticker_selecter_parallel.py --idx $( awk "NR==$SLURM_ARRAY_TASK_ID" config/sequence.txt ) | tee ./output_folder/output_$(awk "NR==$SLURM_ARRAY_TASK_ID" config/sequence.txt).txt 
+python ticker_selecter_parallel.py --idx $( awk "NR==$SLURM_ARRAY_TASK_ID" config/sequence.txt ) 
+
+	#| tee ./output_folder/output_$(awk "NR==$SLURM_ARRAY_TASK_ID" config/sequence.txt).txt 
 
 # sbatch --array=1-20 jobarray.sh
 

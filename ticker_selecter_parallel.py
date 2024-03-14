@@ -9,7 +9,7 @@ path = data_path / 'stock price data'
 ticker_all = pd.read_csv(path/"finer_data_complete_stock.csv")
 # change
 ticker_range = range(1445, 1589)
-a = len(ticker_range)/6
+a = int(len(ticker_range)/6)
 variables = {"atr_len": np.arange(11, 14, 1), "macd_fastLen": np.arange(11, 14, 1), "macd_slowLen": np.arange(32, 36, 2), "macd_signalSmooth": np.arange(
     7, 10, 1), "macd_peakLen": [3, 5], "gain_ratio": np.arange(1, 3, 1), "loss_ratio": np.arange(1, 3, 1), "peak2_len": [20, 30], "peak3_len": [40, 50]}
 

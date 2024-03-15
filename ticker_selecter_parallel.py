@@ -29,7 +29,7 @@ def main():
     args = parse_args()
     # change
     ticker_range = range(args.idx, args.idx + args.batch_size)
-    a = len(ticker_range)/6 if len(ticker_range>6) else len(ticker_range)
+    a = len(ticker_range) // 6 if len(ticker_range) >= 6 else len(ticker_range)
     # change cpu number
     with ProcessPoolExecutor(max_workers=16) as executor:
         # change ticker range
@@ -41,7 +41,7 @@ def main():
     top_a_tickers = [ele for ele in top_a_tickers if ele != []]
     top_a_tickers.sort(key=lambda x: x[0][1], reverse=True)
     top_a_tickers = top_a_tickers[:a]
-    with open("output "+str(ticker_range[0])+" to "+str(ticker_range[-1]), "wb") as fp:   #Pickling
+    with open("output"+str(ticker_range[0])+"_to_"+str(ticker_range[-1]), "wb") as fp:   #Pickling
         pickle.dump(top_a_tickers, fp)
 
     return top_a_tickers

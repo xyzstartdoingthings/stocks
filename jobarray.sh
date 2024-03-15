@@ -6,9 +6,9 @@
 #
 #SBATCH -N 1                     ## Node count
 #SBATCH --ntasks=1              ## Tasks
-#SBATCH --cpus-per-task=12        ## CPUs per task; number of threads of each task
+#SBATCH --cpus-per-task=16        ## CPUs per task; number of threads of each task
 #SBATCH -t 56:00:00              ## Walltime
-#SBATCH --mem=40GB
+#SBATCH --mem=60GB
 #SBATCH -p research              ## Partition
 #SBATCH --error=./eulerlog/array_job_slurm_%A_%a.err
 #SBATCH --output=./eulerlog/array_job_slurm_%A_%a.out

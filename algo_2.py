@@ -2,8 +2,7 @@ from pine_functions import *
 import os
 from utils import *
 
-
-def algo2(ticker, atr_len=13, atr_changeATR=True, macd_fastLen=13, macd_slowLen=34, macd_src="close", macd_signalSmooth=9, macd_oscMA="EMA", macd_sigMA="EMA", macd_peakLen=5, gain_ratio=2, loss_ratio=1.5, peak2_len=20, peak3_len=40):
+def algo2(ticker, atr_len=13, atr_changeATR=True, macd_fastLen=13, macd_slowLen=34, macd_src="close", macd_signalSmooth=9, macd_oscMA="EMA", macd_sigMA="EMA", macd_peakLen=5, gain_ratio=2, loss_ratio=1.5, peak2_len=20, peak3_len=40, peak2_diff=1/11):
     file = ticker+".csv"
     # perhaps set to external harddrive to accomodate large amount of data
     data_path = Path(os.getcwd())
@@ -77,8 +76,8 @@ def algo2(ticker, atr_len=13, atr_changeATR=True, macd_fastLen=13, macd_slowLen=
                 peak["MACD_Hist"] = stock.loc[i, "MACD_Hist"]
                 peak_dict.add(peak)
                 if peak_dict.length() == 2:
-                    if (peak_dict.get(0)["close"] <= peak_dict.get(1)["close"]) and (peak_dict.get(0)["MACD_Hist"] >= peak_dict.get(1)["MACD_Hist"]) and (abs(peak_dict.get(0)["MACD_Hist"])/abs(peak_dict.get(1)["MACD_Hist"]) > 11/1):
-                        if (peak_dict.get(1)["date"] - peak_dict.get(0)["date"]).days <= peak2_len:
+                    if (peak_dict.get(0)["close"] <= peak_dict.get(1)["close"]) and (peak_dict.get(0)["MACD_Hist"] >= peak_dict.get(1)["MACD_Hist"]) and (abs(peak_dict.get(0)["MACD_Hist"])/abs(peak_dict.get(1)["MACD_Hist"]) > 1/peak2_diff):
+                        if (peak_dict.get(1)["date"] - peak_dict.get(0)["date"]).days <=peak2_len:
                             short_mark = 1
                             sb_date = i+macd_peakLen//2
                 elif peak_dict.length() == 3:
@@ -98,8 +97,8 @@ def algo2(ticker, atr_len=13, atr_changeATR=True, macd_fastLen=13, macd_slowLen=
                 trough["MACD_Hist"] = stock.loc[i, "MACD_Hist"]
                 trough_dict.add(trough)
                 if trough_dict.length() == 2:
-                    if (trough_dict.get(0)["close"] >= trough_dict.get(1)["close"]) and (trough_dict.get(0)["MACD_Hist"] <= trough_dict.get(1)["MACD_Hist"]) and (abs(trough_dict.get(0)["MACD_Hist"])/abs(trough_dict.get(1)["MACD_Hist"]) < 1/11):
-                        if (trough_dict.get(1)["date"] - trough_dict.get(0)["date"]).days <= peak2_len:
+                    if (trough_dict.get(0)["close"] >= trough_dict.get(1)["close"]) and (trough_dict.get(0)["MACD_Hist"] <= trough_dict.get(1)["MACD_Hist"]) and (abs(trough_dict.get(0)["MACD_Hist"])/abs(trough_dict.get(1)["MACD_Hist"]) < peak2_diff):
+                        if (trough_dict.get(1)["date"] - trough_dict.get(0)["date"]).days <=peak2_len:
                             long_mark = 1
                             sb_date = i+macd_peakLen//2
                 elif trough_dict.length() == 3:
@@ -113,5 +112,4 @@ def algo2(ticker, atr_len=13, atr_changeATR=True, macd_fastLen=13, macd_slowLen=
                             sb_date = i+macd_peakLen//2
             else:
                 continue
-
     return stock

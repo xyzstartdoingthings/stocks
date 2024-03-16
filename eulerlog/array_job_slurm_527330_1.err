@@ -1,0 +1,36 @@
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/srv/home/zxu444/.conda/envs/py39/lib/python3.9/concurrent/futures/process.py", line 246, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+  File "/srv/home/zxu444/misc/stocks/ticker_selecter_parallel.py", line 21, in optimizer_parallel
+    def optimizer_parallel(algo, ticker, variables):
+  File "/srv/home/zxu444/misc/stocks/utils.py", line 20, in optimizer
+    maximum_drawdown, ROI, win_loss_ratio = eval(stock, opt=True)
+  File "/srv/home/zxu444/misc/stocks/utils.py", line 198, in eval
+    ROI = (orders_df.loc[len(orders_df)-1, "Money After Order"] -
+  File "/srv/home/zxu444/.conda/envs/py39/lib/python3.9/site-packages/pandas/core/indexing.py", line 1183, in __getitem__
+    return self.obj._get_value(*key, takeable=self._takeable)
+  File "/srv/home/zxu444/.conda/envs/py39/lib/python3.9/site-packages/pandas/core/frame.py", line 4202, in _get_value
+    series = self._get_item_cache(col)
+  File "/srv/home/zxu444/.conda/envs/py39/lib/python3.9/site-packages/pandas/core/frame.py", line 4626, in _get_item_cache
+    loc = self.columns.get_loc(item)
+  File "/srv/home/zxu444/.conda/envs/py39/lib/python3.9/site-packages/pandas/core/indexes/range.py", line 417, in get_loc
+    raise KeyError(key)
+KeyError: 'Money After Order'
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/srv/home/zxu444/misc/stocks/ticker_selecter_parallel.py", line 51, in <module>
+    if __name__ == '__main__':
+  File "/srv/home/zxu444/misc/stocks/ticker_selecter_parallel.py", line 38, in main
+    for ticker in ticker_all["Symbol"].unique()[ticker_range[0]:ticker_range[-1]]]
+  File "/srv/home/zxu444/misc/stocks/ticker_selecter_parallel.py", line 38, in <listcomp>
+    for ticker in ticker_all["Symbol"].unique()[ticker_range[0]:ticker_range[-1]]]
+  File "/srv/home/zxu444/.conda/envs/py39/lib/python3.9/concurrent/futures/_base.py", line 439, in result
+    return self.__get_result()
+  File "/srv/home/zxu444/.conda/envs/py39/lib/python3.9/concurrent/futures/_base.py", line 391, in __get_result
+    raise self._exception
+KeyError: 'Money After Order'

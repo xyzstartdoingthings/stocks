@@ -15,7 +15,7 @@ import pickle
 data_path = Path(os.getcwd())
 with open('ticker_coarse','rb') as f:
      ticker_all = pickle.load(f)
-ticker_range = range(168, int(len(ticker_all)))
+ticker_range = range(0, 168)
 a = int(len(ticker_range))
 variables = {"atr_len": np.arange(10, 13, 1), "macd_fastLen": np.arange(10, 14, 1), "macd_slowLen": np.arange(30, 36, 2), "macd_signalSmooth": np.arange(
     6, 9, 1), "macd_peakLen": [3], "gain_ratio": np.arange(1, 2.5, 0.5), "loss_ratio": np.arange(1.5, 3, 0.5), "peak2_len": [20], "peak3_len": [40,50]}
@@ -30,7 +30,7 @@ def optimizer_parallel(algo, ticker, variables):
 
 def main():
     # change cpu number
-    with ProcessPoolExecutor(max_workers=16) as executor:
+    with ProcessPoolExecutor(max_workers=24) as executor:
         #coarse
         # futures = [executor.submit(optimizer_parallel, algo2, ticker, variables)
         #            for ticker in ticker_all["Symbol"].unique()[ticker_range[0]:ticker_range[-1]]]

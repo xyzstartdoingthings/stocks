@@ -5,7 +5,7 @@ from utils import *
 def algo2(ticker, atr_len=13, atr_changeATR=True, macd_fastLen=13, macd_slowLen=34, macd_src="close", macd_signalSmooth=9, macd_oscMA="EMA", macd_sigMA="EMA", macd_peakLen=5, gain_ratio=2, loss_ratio=1.5, peak2_len=20, peak3_len=40, peak2_diff=1/11):
     file = ticker+".csv"
     # perhaps set to external harddrive to accomodate large amount of data
-    data_path = Path(os.getcwd())
+    data_path = Path(os.getcwd()).parent
     path = data_path / 'stock price data'/"company stock price daily"/file
     stock = pd.read_csv(path)
     stock['date'] = pd.to_datetime(stock['date'])
@@ -118,7 +118,7 @@ def algo2(ticker, atr_len=13, atr_changeATR=True, macd_fastLen=13, macd_slowLen=
 def algo2_test(ticker, atr_len=13, atr_changeATR=True, macd_fastLen=13, macd_slowLen=34, macd_src="close", macd_signalSmooth=9, macd_oscMA="EMA", macd_sigMA="EMA", macd_peakLen=5, gain_ratio=2, loss_ratio=1.5, peak2_len=20, peak3_len=40, peak2_diff=1/11):
     file = ticker+".csv"
     # perhaps set to external harddrive to accomodate large amount of data
-    data_path = Path(os.getcwd())
+    data_path = Path(os.getcwd()).parent
     path = data_path / 'stock price test data'/"company stock price daily"/file
     stock = pd.read_csv(path)
     stock['date'] = pd.to_datetime(stock['date'])
@@ -231,7 +231,7 @@ def algo2_test(ticker, atr_len=13, atr_changeATR=True, macd_fastLen=13, macd_slo
 def algo2_trade(ticker, atr_len=13, atr_changeATR=True, macd_fastLen=13, macd_slowLen=34, macd_src="close", macd_signalSmooth=9, macd_oscMA="EMA", macd_sigMA="EMA", macd_peakLen=5, gain_ratio=2, loss_ratio=1.5, peak2_len=20, peak3_len=40, peak2_diff=1/11):
     file = ticker+".csv"
     # perhaps set to external harddrive to accomodate large amount of data
-    data_path = Path(os.getcwd())
+    data_path = Path(os.getcwd()).parent
     path = data_path / 'stock price test data'/"company stock price daily"/file
     stock = pd.read_csv(path)
     stock['date'] = pd.to_datetime(stock['date'])

@@ -1,10 +1,10 @@
 from concurrent.futures import ProcessPoolExecutor
 from utils import *
-from algo_2 import *
+from algo_1 import *
 import pickle
 
 # # coarse selecting
-# data_path = Path(os.getcwd())
+# data_path = Path(os.getcwd()).parent
 # path = data_path / 'stock price data'
 # ticker_all = pd.read_csv(path/"finer_data_complete_stock.csv")
 # # change
@@ -35,7 +35,7 @@ def main():
         # futures = [executor.submit(optimizer_parallel, algo2, ticker, variables)
         #            for ticker in ticker_all["Symbol"].unique()[ticker_range[0]:ticker_range[-1]]]
         #finer
-        futures = [executor.submit(optimizer_parallel, algo2, ticker, variables)
+        futures = [executor.submit(optimizer_parallel, algo1, ticker, variables)
                    for ticker in ticker_all[ticker_range[0]:ticker_range[-1]]]
         top_a_tickers = [future.result() for future in futures]
 

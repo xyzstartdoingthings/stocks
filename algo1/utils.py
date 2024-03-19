@@ -9,7 +9,7 @@ import itertools
 import pickle
 
 
-def optimizer(algo, ticker, variables, n=3, min_ROI = 1.8, max_dd=0.18, wl_ratio=0.6):
+def optimizer(algo, ticker, variables, n=3, min_ROI = 1, max_dd=0.18, wl_ratio=0.6):
     variables["ticker"] = [ticker]
     keys, values = zip(*variables.items())
     combinations = itertools.product(*values)

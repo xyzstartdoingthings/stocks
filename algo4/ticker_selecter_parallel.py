@@ -8,7 +8,7 @@ data_path = Path(os.getcwd())
 path = data_path / 'stock price data'
 ticker_all = pd.read_csv(path/"finer_data_complete_stock.csv")["Symbol"].unique()
 # change
-ticker_range = range(0, 5)
+ticker_range = range(1720, 1916)
 a = int(len(ticker_range)/6)
 variables = {"sma_length": [150, 200], "rsi_period": [8,10,12], "long_range": [20,30,40], 
              "oversell": [30,35], "overbuy": [65, 70], "midline_buy": [40, 50], 
@@ -46,7 +46,7 @@ def main():
     top_a_tickers = [ele for ele in top_a_tickers if ele != []]
     top_a_tickers.sort(key=lambda x: x[0][1], reverse=True)
     top_a_tickers = top_a_tickers[:a]
-    with open("output finer "+str(ticker_range[0])+" to "+str(ticker_range[-1]), "wb") as fp:   #Pickling
+    with open("output "+str(ticker_range[0])+" to "+str(ticker_range[-1]), "wb") as fp:   #Pickling
         pickle.dump(top_a_tickers, fp)
 
     return top_a_tickers
